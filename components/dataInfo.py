@@ -9,5 +9,5 @@ def dataInfo(data):
     #percentage null values
     print(data.isna().mean(),"\n\n")
 
-    #checking if any percentage of null values is greater than 25 percent
+    #checking if any percentage of null values is greater than 10 percent
     print(data.isna().mean()>=0.1)
