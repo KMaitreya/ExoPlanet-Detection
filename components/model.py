@@ -1,20 +1,28 @@
 def model(X_train, y_train):
 
     from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import Dense
+    from tensorflow.keras.layers import Dense, Conv1D, MaxPool1D, Flatten, Dropout, BatchNormalization
     
     #creating the model
     model=Sequential()
-    model.add(Dense(units=32, activation='relu', input_dim=len(X_train.columns)))
-    model.add(Dense(units=64, activation='relu'))
-    model.add(Dense(units=64, activation='relu'))
-    model.add(Dense(units=3, activation='sigmoid'))
-    #creating 3 output nodes for 3 classes(CONFIRMED, CANDIDATE, FALSE POSITIVE)
+    model.add(Conv1D(8, 11, activation='relu', input_shape=(X_train.shape[1], 1)))
+    model.add(MaxPool1D(pool_size=2))
+    model.add(BatchNormalization())
+    model.add(Conv1D(16, 11, activation='relu'))
+    model.add(MaxPool1D(pool_size=2))
+    model.add(BatchNormalization())
+    model.add(Flatten())
+    model.add(Dropout(0.5))
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.25))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(2, activation='softmax'))
+    model.summary()
 
     #compiling the model
-    model.compile(loss='binary_crossentropy', optimizer='sgd', metrics='accuracy')
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics='accuracy')
 
     #training the model
-    model.fit(X_train, y_train, epochs=40, batch_size=10, verbose=1)
+    model.fit(X_train, y_train, epochs=50, batch_size=5, verbose=1)
 
     return model
