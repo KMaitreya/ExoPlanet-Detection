@@ -3,17 +3,22 @@ import pandas as pd
 from components.preprocess import preprocess
 from components.model import model
 from components.dataInfo import dataInfo
+from components.trainingPredictions import trainingPredictions
+from components.trainDataSplit import trainDataSplit
+from components.predDataProcess import predDataProcess
+from components.finalPrediction import finalPrediction
 from IPython.display import display
 
-#loading the data
-data=pd.read_csv('dataset/cumulative.csv')
-display(data)
+#loading the training data
+training_data=pd.read_csv('data/training_dataset.csv')
+display(training_data)
 
-#data information
-dataInfo(data)
+#training data information
+dataInfo(training_data)
 
-#running the preprocess function
-X_train, X_test, y_train, y_test=preprocess(data)
+#training data preprocessing
+data=preprocess(training_data)
+X_train, X_test, y_train, y_test=trainDataSplit(data)
 
 #Training data
 display(X_train, "\n", y_train)
@@ -22,11 +27,17 @@ display(X_train, "\n", y_train)
 model=model(X_train, y_train)
 
 #predictions
-predictions=model.predict(X_test)
-predictions=pd.DataFrame(predictions, index=X_test.index, columns=['CONFIRMED', 'CANDIDATE', 'FALSE POSITIVE'])
-predictions=predictions.round(0)
-display('\nn\ Actual set:\n', y_test)
-display('Predicted set:\n', predictions)
+trainingPredictions(X_test, y_test, model)
 
-loss, accuracy=model.evaluate(X_test, y_test, verbose=1)
-print("Accuracy: ", accuracy)
+#loading the prediction data
+prediction_data=pd.read_csv('data/final_prediction_set.csv')
+display(prediction_data)
+
+#prediction data preprocessing
+data=preprocess(prediction_data)
+X_pred=predDataProcess(data)
+
+#final predictions
+finalPrediction(X_pred, model)
+
+
