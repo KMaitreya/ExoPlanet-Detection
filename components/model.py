@@ -5,17 +5,14 @@ def model(X_train, y_train):
     
     #creating the model
     model=Sequential()
-    model.add(Conv1D(8, 11, activation='relu', input_shape=(X_train.shape[1], 1)))
+    model.add(Conv1D(8, 1, activation='relu', input_shape=(X_train.shape[1], 1)))
     model.add(MaxPool1D(pool_size=2))
-    model.add(BatchNormalization())
-    model.add(Conv1D(16, 11, activation='relu'))
+    model.add(Conv1D(16, 1, activation='relu'))
     model.add(MaxPool1D(pool_size=2))
-    model.add(BatchNormalization())
     model.add(Flatten())
-    model.add(Dropout(0.5))
     model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.25))
     model.add(Dense(64, activation='relu'))
+    model.add(Dense(32, activation='relu'))
     model.add(Dense(2, activation='softmax'))
     model.summary()
 
