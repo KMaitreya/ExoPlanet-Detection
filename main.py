@@ -7,6 +7,7 @@ from components.trainingPredictions import trainingPredictions
 from components.trainDataSplit import trainDataSplit
 from components.predDataProcess import predDataProcess
 from components.finalPrediction import finalPrediction
+from components.visualize import visualize
 from IPython.display import display
 
 #loading the training data
@@ -24,10 +25,13 @@ X_train, X_test, y_train, y_test=trainDataSplit(data)
 display(X_train, "\n", y_train)
 
 #model training and creation
-model=model(X_train, y_train)
+cnn_model,model=model(X_train, y_train)
 
 #predictions
 trainingPredictions(X_test, y_test, model)
+
+#visualize the model output
+visualize(cnn_model)
 
 #loading the prediction data
 prediction_data=pd.read_csv('data/final_prediction_set.csv')
@@ -38,6 +42,7 @@ data=preprocess(prediction_data)
 X_pred=predDataProcess(data)
 
 #final predictions
-finalPrediction(X_pred, model)
+predictions=finalPrediction(X_pred, model)
+display('\n\nPredicted set:\n\n', predictions)
 
 

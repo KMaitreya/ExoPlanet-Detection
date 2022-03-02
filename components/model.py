@@ -1,7 +1,7 @@
 def model(X_train, y_train):
 
     from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import Dense, Conv1D, MaxPool1D, Flatten, Dropout, BatchNormalization
+    from tensorflow.keras.layers import Dense, Conv1D, MaxPool1D, Flatten
     
     #creating the model
     model=Sequential()
@@ -20,6 +20,6 @@ def model(X_train, y_train):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics='accuracy')
 
     #training the model
-    model.fit(X_train, y_train, epochs=50, batch_size=5, verbose=1)
+    cnn_model=model.fit(X_train, y_train, epochs=50, batch_size=5, verbose=1)
 
     return model
